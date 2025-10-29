@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Error() {
+export default function Errors() {
   return (
     <View style={styles.container}>
-      <Text>Error screen</Text>
+      <Text>Admin Errors Dashboard!!</Text>
       <StatusBar style="auto" />
     </View>
   );
