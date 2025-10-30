@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import USERS  from "../assets/login-credentials.json"
 import MyButton from '../components/Button';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function SignInScreen() {
   const navigation = useNavigation();
@@ -60,7 +62,7 @@ export default function SignInScreen() {
     return valid;
   };
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     if (!validate()) {
       Alert.alert("invalid credentials!")
       return; // stop if validation fails
@@ -75,12 +77,24 @@ export default function SignInScreen() {
       Alert.alert("Invalid login", "Email or password is incorrect");
       return;
     }
-
+    // after validating user login
+  // const { email, role } = user;
+  try {
+    await AsyncStorage.setItem('@user_email', user.email);
+    await AsyncStorage.setItem('@user_role', user.role);
+    console.log("user------------", user);
+    // navigate to authenticated screen
     if (user.role === "admin") {
       navigation.navigate("Tasks", { role: user.role });
     } else {
+      alert("navigate to member tasks screen")
       navigation.navigate("Tasks", { role: user.role });
     }
+  } catch (e) {
+    console.error("Error saving user data", e);
+  }
+
+    
   };
 
   return (

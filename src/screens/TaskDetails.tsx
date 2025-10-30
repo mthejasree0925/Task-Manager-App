@@ -99,7 +99,7 @@ export default function TaskDetails() {
           <View style={styles.item}>
             <Text>{item.title}</Text>
             <Text>{item.description}</Text>
-
+             <Text>{item.completed ? 'Completed' : 'Incomplete'}</Text>
             {isAdded &&
               <View style={styles.actionRow}>
                 <TouchableOpacity onPress={() => startEdit(item)}>
