@@ -8,9 +8,10 @@ import {
   StyleSheet,
   Alert
 } from 'react-native';
-import USERS  from "../assets/login-credentials.json"
+import USERS from "../assets/login-credentials.json"
 import MyButton from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 export default function SignInScreen() {
@@ -53,7 +54,7 @@ export default function SignInScreen() {
     return valid;
   };
 
-  const handleLogin = async() => {
+  const handleLogin = async () => {
     if (!validate()) {
       Alert.alert("invalid credentials!")
       return; // stop if validation fails
@@ -69,76 +70,83 @@ export default function SignInScreen() {
       return;
     }
     // after validating user login
-  // const { email, role } = user;
-  try {
-    await AsyncStorage.setItem('@user_email', user.email);
-    await AsyncStorage.setItem('@user_role', user.role);
-    await AsyncStorage.setItem('@user_logged_in', 'true');
-    // navigate to authenticated screen
-    if (user) {
-      navigation.navigate("Tasks",{role: user.role})
-    } 
-  } catch (e) {
-    console.error("Error saving user data", e);
-  }
+    // const { email, role } = user;
+    try {
+      await AsyncStorage.setItem('@user_email', user.email);
+      await AsyncStorage.setItem('@user_role', user.role);
+      await AsyncStorage.setItem('@user_logged_in', 'true');
+      // navigate to authenticated screen
+      if (user) {
+        navigation.navigate("Tasks", { role: user.role })
+      }
+    } catch (e) {
+      console.error("Error saving user data", e);
+    }
 
-    
+
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign In!! Please use your tietoevry credentials to login into the app!!</Text>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
+      extraScrollHeight={100}
+      enableOnAndroid={true}
+    >
+      <View style={styles.container}>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        autoCapitalize="none"
-        keyboardType="email-address"
-        value={email}
-        onChangeText={text => setEmail(text)}
-      />
-      { emailError ? <Text style={styles.errorText}>{emailError}</Text> : null }
+        <Text style={styles.title}>Sign In!! Please use your tietoevry credentials to login into the app!!</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={text => setPassword(text)}
-      />
-      { passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null }
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          value={email}
+          onChangeText={text => setEmail(text)}
+        />
+        {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
-      <MyButton
-        title="Submit"
-        onPress={handleLogin}
-        buttonStyle={{ backgroundColor: '#4caf50' }}
-        textStyle={{ color: '#fff' }}
-      /> 
-    </View>
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          value={password}
+          onChangeText={text => setPassword(text)}
+        />
+        {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
+
+        <MyButton
+          title="Submit"
+          onPress={handleLogin}
+          buttonStyle={{ backgroundColor: '#4caf50' }}
+          textStyle={{ color: '#fff' }}
+        />
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    padding:20,
-    justifyContent:'center',
-    backgroundColor:'#fff'
+    flex: 1,
+    padding: 20,
+    justifyContent: 'center',
+    backgroundColor: '#fff'
   },
   title: {
-    fontSize:24,
-    marginBottom:20,
-    textAlign:'center'
+    fontSize: 24,
+    marginBottom: 20,
+    textAlign: 'center'
   },
   input: {
-    borderWidth:1,
-    borderColor:'#ccc',
-    padding:12,
-    marginBottom:10,
-    borderRadius:5
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 12,
+    marginBottom: 10,
+    borderRadius: 5
   },
   errorText: {
-    color:'red',
-    marginBottom:10
+    color: 'red',
+    marginBottom: 10
   }
 });
