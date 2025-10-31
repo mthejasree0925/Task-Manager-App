@@ -16,32 +16,6 @@ const Tab = createBottomTabNavigator();
 
 
 function AuthTabs() {
-  const [admin, setAdmin] = useState<string | null>(null);
-
-  useEffect(() => {
-    const readUserRole = async () => {
-      try {
-        const value = await AsyncStorage.getItem('@user_role');
-        if (value !== null) {
-          // value exists
-          setAdmin(value);
-          return value;
-        } else {
-          // no value for this key
-          console.log('No user role found in storage');
-          return null;
-        }
-      } catch (e) {
-        // error reading value
-        console.error('Error reading user role from AsyncStorage', e);
-        return null;
-      }
-    };
-
-    readUserRole();
-  }, []);
-
-
 
   return (
 
@@ -52,7 +26,7 @@ function AuthTabs() {
           // Map routes to icons 
           const iconMap: Record<string, keyof typeof MaterialIcons.glyphMap> = {
             Tasks: 'list',
-           Error: 'error-outline',
+            Error: 'error-outline',
             SignOut: 'logout',
           };
           const iconName = iconMap[route.name] || 'circle';
@@ -70,8 +44,7 @@ function AuthTabs() {
       })}
     >
       <Tab.Screen name="Tasks" component={Tasks} />
-      {admin && <Tab.Screen name="Errors" component={Errors} />}
-      {/* <Stack.Screen name="Errors" component={Errors}/> */}
+      <Tab.Screen name="Errors" component={Errors} />
       <Tab.Screen name="SignOut" component={SignIn} />
     </Tab.Navigator>
   );
@@ -80,12 +53,17 @@ function AuthTabs() {
 export function AppNavigator() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(null);
+
 
   useEffect(() => {
     const checkLogin = async () => {
       try {
+        const userRole = await AsyncStorage.getItem('@user_role');
         const loggedIn = await AsyncStorage.getItem('@user_logged_in');
         setIsLoggedIn(loggedIn);
+        setUserRole(userRole)
+        console.log("role----------", userRole, loggedIn)
       } catch (e) {
         console.error("Error checking login state:", e);
       }
@@ -103,14 +81,14 @@ export function AppNavigator() {
   return (
 
     <Stack.Navigator>
-      {isLoggedIn ? <><Stack.Screen name="SignOut" component={SignIn} />
-        <Stack.Screen name="Tasks" component={AuthTabs} />
-        <Stack.Screen name="TaskDetails" component={TaskDetails}
-          options={{
-            headerStyle: { backgroundColor: '#0066cc' },
-            headerTintColor: '#fff',
+      <Stack.Screen name="SignOut" component={SignIn} options={{ headerShown: false }} />
+      <Stack.Screen name="Tasks" component={AuthTabs} />
+      <Stack.Screen name="TaskDetails" component={TaskDetails}
+        options={{
+          headerStyle: { backgroundColor: '#0066cc' },
+          headerTintColor: '#fff',
 
-          }} /></> : <Stack.Screen name="SignIn" component={SignIn} />}
+        }} />
 
 
     </Stack.Navigator>

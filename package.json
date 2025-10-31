@@ -3,10 +3,29 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
+     "prepare": "husky install",
+    "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
+    "format": "prettier --write \"src/**/*.{js,ts,tsx,json}\"",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web"
+  },
+   "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "npm run format",
+      "npm run lint --fix",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "npm run format",
+      "git add"
+    ]
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -20,12 +39,15 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.5",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",
     "react-native-web": "^0.21.0"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "typescript": "~5.9.2"
   },
   "private": true

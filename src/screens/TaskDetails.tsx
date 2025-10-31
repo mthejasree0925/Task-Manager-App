@@ -76,7 +76,7 @@ export default function TaskDetails() {
     setEditingId(item.id);
     setTitle(item.title);
     setDesc(item.description);
-    
+
   };
   // add this toggle handler
   const onToggleComplete = (id: string) => {
@@ -125,16 +125,15 @@ export default function TaskDetails() {
             <View style={styles.item}>
               <Text style={item.completed ? styles.completedTitle : styles.title}>{item.title}</Text>
               <Text style={item.completed ? styles.completedDescription : styles.description}>{item.description}</Text>
-              {/* <Text>{item.completed ? 'Completed' : 'Incomplete'}</Text> */}
 
 
-            {isAdded &&
-              <View style={styles.actionRow}>
-                {/* Toggle complete/incomplete button */}
-                <TouchableOpacity onPress={() => onToggleComplete(item.id)}>
-                  <Text style={styles.actionBtn}>
-                    {item.completed ? "Mark Incomplete" : "Mark Complete"}
-                  </Text>
+              {isAdded &&
+                <View style={styles.actionRow}>
+                  {/* Toggle complete/incomplete button */}
+                  <TouchableOpacity onPress={() => onToggleComplete(item.id)}>
+                    <Text style={styles.actionBtn}>
+                      {item.completed ? "Mark Incomplete" : "Mark Complete"}
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => startEdit(item)}>
                     <Text style={styles.actionBtn}>Update</Text>
@@ -142,22 +141,22 @@ export default function TaskDetails() {
                   <TouchableOpacity onPress={() => onDelete(item.id)}>
                     <Text style={styles.actionBtn}>Delete</Text>
                   </TouchableOpacity>
-              </View>
-            }
-          </View>
+                </View>
+              }
+            </View>
           </Card>
 
 
 
-  )
-}
-ListEmptyComponent = {
-          < View style = { styles.emptyContainer } >
-  <Text style={styles.emptyText}>No tasks found. Add one above!</Text>
+        )
+        }
+        ListEmptyComponent={
+          < View style={styles.emptyContainer} >
+            <Text style={styles.emptyText}>No tasks found. Add one above!</Text>
           </View >
         }
       />
-  < View style = { styles.paginationRow } >
+      < View style={styles.paginationRow} >
 
 
         <MyButton
@@ -177,11 +176,6 @@ ListEmptyComponent = {
           textStyle={{ color: '#fff' }}
         />
       </View >
-
-
-
-
-
     </View >
   );
 }

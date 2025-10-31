@@ -36,9 +36,9 @@ const MyButton: React.FC<Props> = ({
       activeOpacity={0.7}
     >
       {loading ? (
-        <ActivityIndicator color="#fff" />
+        <ActivityIndicator color="#fff" accessibilityLabel='activity-indicator'/>
       ) : (
-        <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+        <Text style={[styles.buttonText, textStyle]} accessibilityLabel='title'>{title}</Text>
       )}
     </TouchableOpacity>
   );

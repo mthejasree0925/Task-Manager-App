@@ -9,6 +9,7 @@ export default function ErrorsScreen() {
     <View style={{flex:1, padding:12}}>
       <FlatList
         data={MOCK_ERRORS}
+        accessibilityLabel='errors-list'
         keyExtractor={i => i.id}
         renderItem={({item}) => <Card><Text>{item.message}</Text><Text>{item.ts}</Text></Card>}
       />

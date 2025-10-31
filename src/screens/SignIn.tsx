@@ -94,7 +94,7 @@ export default function SignInScreen() {
     >
       <View style={styles.container}>
 
-        <Text style={styles.title}>Sign In!! Please use your tietoevry credentials to login into the app!!</Text>
+        <Text style={styles.title} accessibilityLabel='title'>Sign In!! Please use your tietoevry credentials to login into the app!!</Text>
 
         <TextInput
           style={styles.input}
@@ -103,6 +103,7 @@ export default function SignInScreen() {
           keyboardType="email-address"
           value={email}
           onChangeText={text => setEmail(text)}
+          accessibilityLabel='email-textinput'
         />
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
@@ -112,6 +113,8 @@ export default function SignInScreen() {
           secureTextEntry
           value={password}
           onChangeText={text => setPassword(text)}
+          accessibilityLabel='password-textinput'
+
         />
         {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
 
