@@ -18,16 +18,7 @@ export default function SignInScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
- const [loading, setLoading] = useState(false);
-
-  // const handlePress = () => {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  // };
+  const [passwordError, setPasswordError] = useState("");;
 
 
   const validate = () => {
@@ -82,14 +73,11 @@ export default function SignInScreen() {
   try {
     await AsyncStorage.setItem('@user_email', user.email);
     await AsyncStorage.setItem('@user_role', user.role);
-    console.log("user------------", user);
+    await AsyncStorage.setItem('@user_logged_in', 'true');
     // navigate to authenticated screen
-    if (user.role === "admin") {
-      navigation.navigate("Tasks", { role: user.role });
-    } else {
-      alert("navigate to member tasks screen")
-      navigation.navigate("Tasks", { role: user.role });
-    }
+    if (user) {
+      navigation.navigate("Tasks",{role: user.role})
+    } 
   } catch (e) {
     console.error("Error saving user data", e);
   }
@@ -99,7 +87,7 @@ export default function SignInScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>SignIn</Text>
+      <Text style={styles.title}>Sign In!! Please use your tietoevry credentials to login into the app!!</Text>
 
       <TextInput
         style={styles.input}
@@ -123,7 +111,6 @@ export default function SignInScreen() {
       <MyButton
         title="Submit"
         onPress={handleLogin}
-        loading={loading}
         buttonStyle={{ backgroundColor: '#4caf50' }}
         textStyle={{ color: '#fff' }}
       /> 

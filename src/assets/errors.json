@@ -1,0 +1,12 @@
+[
+    {
+        "id": "e1",
+        "message": "Server 500 at /tasks",
+        "ts": new Date().toISOString() 
+    },
+    {
+        "id": "e2",
+        "message": "Unhandled promise",
+        "ts": new Date().toISOString()
+    },
+];

@@ -1,6 +1,7 @@
 import { Button, FlatList, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
+import { Card } from '../components/Card';
+import MyButton from '../components/Button';
 
 export default function TaskDetails() {
   const [title, setTitle] = useState('');
@@ -10,6 +11,15 @@ export default function TaskDetails() {
   const [tasks, setTasks] = useState([]);
   const [isAdded, setIsAdded] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+
+  const itemsPerPage = 5;
+  const totalPages = Math.max(1, Math.ceil(tasks.length / itemsPerPage));
+  const safePage = Math.min(currentPage, totalPages);
+  const startIndex = (safePage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const pageItems = tasks.slice(startIndex, endIndex);
 
   //handle add task with validation
   const handleAddOrSaveTask = () => {
@@ -35,6 +45,7 @@ export default function TaskDetails() {
         id: Date.now().toString(),
         title: title.trim(),
         description: desc.trim(),
+        completed: false,
       };
       setTasks(prev => [...prev, newTask]);
     }
@@ -42,6 +53,10 @@ export default function TaskDetails() {
     setTitle('');
     setDesc('');
     setEditingId(null);
+
+    // Optionally reset to last page so new item shows up
+    setCurrentPage(totalPages + (editingId ? 0 : 1));
+    setIsAdded(true);
   };
   // Update task based on id
   const onUpdate = (id: string, newTitle: string, newDescription: string) => {
@@ -61,6 +76,17 @@ export default function TaskDetails() {
     setEditingId(item.id);
     setTitle(item.title);
     setDesc(item.description);
+    
+  };
+  // add this toggle handler
+  const onToggleComplete = (id: string) => {
+    setTasks(prevTasks =>
+      prevTasks.map(task =>
+        task.id === id
+          ? { ...task, completed: !task.completed }
+          : task
+      )
+    );
   };
 
   return (
@@ -92,29 +118,71 @@ export default function TaskDetails() {
       </View>
       {/* flatlist for displaying list of taks */}
       <FlatList
-        data={tasks}
+        data={pageItems}
         keyExtractor={(i) => i.id}
         renderItem={({ item }) => (
+          <Card>
+            <View style={styles.item}>
+              <Text style={item.completed ? styles.completedTitle : styles.title}>{item.title}</Text>
+              <Text style={item.completed ? styles.completedDescription : styles.description}>{item.description}</Text>
+              {/* <Text>{item.completed ? 'Completed' : 'Incomplete'}</Text> */}
 
-          <View style={styles.item}>
-            <Text>{item.title}</Text>
-            <Text>{item.description}</Text>
-             <Text>{item.completed ? 'Completed' : 'Incomplete'}</Text>
+
             {isAdded &&
               <View style={styles.actionRow}>
-                <TouchableOpacity onPress={() => startEdit(item)}>
-                  <Text style={styles.actionBtn}>Update</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => onDelete(item.id)}>
-                  <Text style={styles.actionBtn}>Delete</Text>
-                </TouchableOpacity>
+                {/* Toggle complete/incomplete button */}
+                <TouchableOpacity onPress={() => onToggleComplete(item.id)}>
+                  <Text style={styles.actionBtn}>
+                    {item.completed ? "Mark Incomplete" : "Mark Complete"}
+                  </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => startEdit(item)}>
+                    <Text style={styles.actionBtn}>Update</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => onDelete(item.id)}>
+                    <Text style={styles.actionBtn}>Delete</Text>
+                  </TouchableOpacity>
               </View>
             }
           </View>
+          </Card>
 
-        )}
+
+
+  )
+}
+ListEmptyComponent = {
+          < View style = { styles.emptyContainer } >
+  <Text style={styles.emptyText}>No tasks found. Add one above!</Text>
+          </View >
+        }
       />
-    </View>
+  < View style = { styles.paginationRow } >
+
+
+        <MyButton
+          title="Previous"
+          onPress={() => setCurrentPage(p => Math.max(p - 1, 1))}
+          disabled={safePage === 1}
+
+          buttonStyle={{ backgroundColor: '#4caf50' }}
+          textStyle={{ color: '#fff' }}
+        />
+        <MyButton
+          title="Next"
+          onPress={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+          disabled={safePage === totalPages}
+
+          buttonStyle={{ backgroundColor: '#4caf50' }}
+          textStyle={{ color: '#fff' }}
+        />
+      </View >
+
+
+
+
+
+    </View >
   );
 }
 
@@ -136,5 +204,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginLeft: 10,
     color: '#000',
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 40,
+    padding: 16,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#777',
+    marginTop: 8,
+  },
+  paginationRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  pageInfo: {
+    fontSize: 16,
+  },
+  completedTitle: {
+    textDecorationLine: 'line-through',
+    color: '#777',
+  },
+  completedDescription: {
+    color: '#aaa',
   },
 });

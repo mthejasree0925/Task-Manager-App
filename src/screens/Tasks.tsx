@@ -12,30 +12,28 @@ export default function Tasks() {
   const navigateToTaskDetails = () => {
     navigation.navigate('TaskDetails');
   };
-  // useEffect(() => {
-  //   const loadUserData = async () => {
-  //     try {
-  //       const email = await AsyncStorage.getItem('@user_email');
-  //       const role = await AsyncStorage.getItem('@user_role');
-  //       console.log("eeeeeeeeeeeeeeeeeeee-------",email);
-  //       console.log("role------------", role);
-  //       if (email && role) {
-  //         // user is already logged in
-  //         navigation.navigate("Tasks", { role });
-  //       } else {
-  //         // show sign in screen
-  //         navigation.navigate("SignIn", { role })
-  //       }
-  //     } catch (e) {
-  //       console.error("Error loading user data", e);
-  //     }
-  //   };
-  //   loadUserData();
-  // }, []);
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const email = await AsyncStorage.getItem('@user_email');
+        const role = await AsyncStorage.getItem('@user_role');
+        if (email && role) {
+          // user is already logged in
+          navigation.navigate("Tasks", { role });
+        } else {
+          // show sign in screen
+          navigation.navigate("SignIn", { role });
+        }
+      } catch (e) {
+        console.error("Error loading user data", e);
+      }
+    };
+    loadUserData();
+  }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Tasks screen</Text>
+      <Text style={{textAlign:'center', padding: 20}}>Tasks screen with tabs!! Go to task details by clicking on Tasks!!</Text>
       <MyButton
         title="TASKS"
         onPress={navigateToTaskDetails}

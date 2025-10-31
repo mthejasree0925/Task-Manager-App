@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function Home() {
+export default function SignOut() {
   return (
     <View style={styles.container}>
       <Text>Sign In screen</Text>
