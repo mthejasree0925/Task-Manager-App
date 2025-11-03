@@ -14,13 +14,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
-export default function SignInScreen() {
-  const navigation = useNavigation();
+export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");;
-
+  const navigation = useNavigation();
 
   const validate = () => {
     let valid = true;
@@ -55,6 +54,7 @@ export default function SignInScreen() {
   };
 
   const handleLogin = async () => {
+         
     if (!validate()) {
       Alert.alert("invalid credentials!")
       return; // stop if validation fails
@@ -77,7 +77,8 @@ export default function SignInScreen() {
       await AsyncStorage.setItem('@user_logged_in', 'true');
       // navigate to authenticated screen
       if (user) {
-        navigation.navigate("Tasks", { role: user.role })
+         navigation.navigate("Tasks",{role: user})
+        // navigation.replace('AppTabs',{role: user.role});
       }
     } catch (e) {
       console.error("Error saving user data", e);

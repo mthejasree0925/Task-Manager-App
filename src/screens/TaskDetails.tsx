@@ -1,7 +1,7 @@
-import { Button, FlatList, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useState } from 'react';
-import { Card } from '../components/Card';
 import MyButton from '../components/Button';
+import { FlastListComponent } from '../components/FlatList';
 
 export default function TaskDetails() {
   const [title, setTitle] = useState('');
@@ -116,49 +116,19 @@ export default function TaskDetails() {
           />
         </View>
       </View>
-      {/* flatlist for displaying list of taks */}
-      <FlatList
+      {/* display list of tasks in cards after adding it from form */}
+      <FlastListComponent
         data={pageItems}
         keyExtractor={(i) => i.id}
-        renderItem={({ item }) => (
-          <Card>
-            <View style={styles.item}>
-              <Text style={item.completed ? styles.completedTitle : styles.title}>{item.title}</Text>
-              <Text style={item.completed ? styles.completedDescription : styles.description}>{item.description}</Text>
-
-
-              {isAdded &&
-                <View style={styles.actionRow}>
-                  {/* Toggle complete/incomplete button */}
-                  <TouchableOpacity onPress={() => onToggleComplete(item.id)}>
-                    <Text style={styles.actionBtn}>
-                      {item.completed ? "Mark Incomplete" : "Mark Complete"}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => startEdit(item)}>
-                    <Text style={styles.actionBtn}>Update</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => onDelete(item.id)}>
-                    <Text style={styles.actionBtn}>Delete</Text>
-                  </TouchableOpacity>
-                </View>
-              }
-            </View>
-          </Card>
-
-
-
-        )
-        }
-        ListEmptyComponent={
-          < View style={styles.emptyContainer} >
-            <Text style={styles.emptyText}>No tasks found. Add one above!</Text>
-          </View >
-        }
+        renderTitle={(i) => i.title}
+        renderDescription={(i) => i.description}
+        onToggleComplete={onToggleComplete}
+        onDelete={onDelete}
+        onEdit={startEdit}
+        isEditable
       />
+      {/* add pagination for tasks i.e 5 tasks per page */}
       < View style={styles.paginationRow} >
-
-
         <MyButton
           title="Previous"
           onPress={() => setCurrentPage(p => Math.max(p - 1, 1))}

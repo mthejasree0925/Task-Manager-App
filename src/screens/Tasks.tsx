@@ -5,9 +5,11 @@ import MyButton from '../components/Button';
 import { useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function Tasks() {
+export default function Tasks({route}) {
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(false);
+  console.log("routeeeeeeeeeeeee-------", route);
 
   const navigateToTaskDetails = () => {
     navigation.navigate('TaskDetails');
@@ -17,13 +19,14 @@ export default function Tasks() {
       try {
         const email = await AsyncStorage.getItem('@user_email');
         const role = await AsyncStorage.getItem('@user_role');
-        if (email && role) {
-          // user is already logged in
-          navigation.navigate("Tasks", { role });
-        } else {
-          // show sign in screen
-          navigation.navigate("SignIn", { role });
-        }
+        console.log("email=------------", email);
+        // if (email !== null) {
+        //   // user is already logged in
+        //   navigation.navigate("BottomTabs");
+        // } else {
+        //   // show sign in screen
+        //   navigation.navigate("SignIn")
+        // }
       } catch (e) {
         console.error("Error loading user data", e);
       }
