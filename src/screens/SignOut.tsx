@@ -9,8 +9,10 @@ const navigation = useNavigation();
 
   React.useEffect(() => {
     const signOut = async () => {
-      await AsyncStorage.clear(); // remove stored login data
-
+       // remove stored login data
+       await AsyncStorage.removeItem('@user_email');
+       await AsyncStorage.removeItem('@user_role');
+       await AsyncStorage.removeItem('@user_logged_in');
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
