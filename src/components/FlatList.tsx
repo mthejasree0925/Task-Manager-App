@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { FlatList, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { FlatList, View, Text, TouchableOpacity, StyleSheet, Platform, PlatformColor } from 'react-native';
 import { Card } from './Card';
 
 type FlatListProps<T> = {
@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
   },
   description: {
     color: '#666',
-    marginTop: 4
+    marginTop: 4,
+    marginBottom: Platform.OS === 'android'? 5:0,
   },
   completedTitle: {
     fontSize: 18,
@@ -110,6 +111,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     marginLeft: 10,
     color: '#000',
+    marginTop: Platform.OS === 'android'? 15: 0,
   },
   emptyContainer: {
     alignItems: 'center',

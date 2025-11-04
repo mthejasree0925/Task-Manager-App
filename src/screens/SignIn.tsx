@@ -53,14 +53,12 @@ export default function SignIn() {
     return valid;
   };
 
+
   const handleLogin = async () => {
-         
     if (!validate()) {
       Alert.alert("invalid credentials!")
       return; // stop if validation fails
     }
-
-    // mock login logic
     const user = USERS.find(
       u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
     );
@@ -70,21 +68,17 @@ export default function SignIn() {
       return;
     }
     // after validating user login
-    // const { email, role } = user;
     try {
       await AsyncStorage.setItem('@user_email', user.email);
       await AsyncStorage.setItem('@user_role', user.role);
       await AsyncStorage.setItem('@user_logged_in', 'true');
       // navigate to authenticated screen
       if (user) {
-         navigation.navigate("Tasks",{role: user})
-        // navigation.replace('AppTabs',{role: user.role});
+        navigation.navigate("Tasks", { role: user })
       }
     } catch (e) {
       console.error("Error saving user data", e);
     }
-
-
   };
 
   return (
@@ -94,9 +88,7 @@ export default function SignIn() {
       enableOnAndroid={true}
     >
       <View style={styles.container}>
-
         <Text style={styles.title} accessibilityLabel='title'>Sign In!! Please use your tietoevry credentials to login into the app!!</Text>
-
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -107,7 +99,6 @@ export default function SignIn() {
           accessibilityLabel='email-textinput'
         />
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
-
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -115,10 +106,8 @@ export default function SignIn() {
           value={password}
           onChangeText={text => setPassword(text)}
           accessibilityLabel='password-textinput'
-
         />
         {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
-
         <MyButton
           title="Submit"
           onPress={handleLogin}

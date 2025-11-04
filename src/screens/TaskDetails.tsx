@@ -18,7 +18,7 @@ export default function TaskDetails() {
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 5;
 
-  // 🔹 Compute pagination whenever tasks or currentPage changes
+  //  Compute pagination whenever tasks or currentPage changes
   useEffect(() => {
     const computedTotalPages = Math.max(1, Math.ceil(tasks.length / itemsPerPage));
     const computedSafePage = Math.min(currentPage, computedTotalPages);
@@ -34,7 +34,7 @@ export default function TaskDetails() {
     setPageItems(sliced);
   }, [tasks, currentPage]);
 
-  // 🔹 Load all saved tasks on startup
+  //  Load all saved tasks on startup
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -52,7 +52,7 @@ export default function TaskDetails() {
     loadData();
   }, []);
 
-  // 🔹 Save entire tasks list whenever it changes
+  //  Save entire tasks list whenever it changes
   useEffect(() => {
     const saveData = async () => {
       try {
@@ -65,7 +65,7 @@ export default function TaskDetails() {
     if (tasks.length >= 0) saveData();
   }, [tasks]);
 
-  // 🔹 Add or update a task
+  //  Add or update a task
   const handleAddOrSaveTask = () => {
     let valid = true;
     if (title.trim().length === 0) {
@@ -109,19 +109,19 @@ export default function TaskDetails() {
     setDesc('');
   };
 
-  // 🔹 Delete a task
+  //  Delete a task
   const onDelete = (id: string) => {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
   };
 
-  // 🔹 Edit a task
+  //  Edit a task
   const startEdit = (item: { id: string; title: string; description: string }) => {
     setEditingId(item.id);
     setTitle(item.title);
     setDesc(item.description);
   };
 
-  // 🔹 Toggle completion
+  //  Toggle completion
   const onToggleComplete = (id: string) => {
     setTasks(prevTasks =>
       prevTasks.map(task =>
@@ -134,7 +134,7 @@ export default function TaskDetails() {
     <View style={styles.container}>
       <StatusBar style="auto" />
 
-      {/* 🔹 Task input form */}
+       {/* Task input form  */}
       <View style={styles.form}>
         <TextInput
           placeholder="Title"
@@ -163,7 +163,7 @@ export default function TaskDetails() {
         </View>
       </View>
 
-      {/* 🔹 Task List */}
+      {/* Task List */}
       <FlastListComponent
         data={pageItems}
         keyExtractor={(i) => i.id}
@@ -175,7 +175,7 @@ export default function TaskDetails() {
         isEditable
       />
 
-      {/* 🔹 Pagination */}
+      {/*  Pagination */}
       <View style={styles.paginationRow}>
         <MyButton
           title="Previous"

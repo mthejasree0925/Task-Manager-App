@@ -7,14 +7,13 @@ import SignOut from "../screens/SignOut";
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = ({ userRole }: any) => {
-  console.log("user---------", userRole, )
   return (
 
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
-          // Map routes to icons 
+          //representing icons 
           const iconMap: Record<string, keyof typeof MaterialIcons.glyphMap> = {
             Tasks: 'list',
             Error: 'error-outline',

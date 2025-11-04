@@ -8,7 +8,6 @@ import BottomTabs from "../navigation/BottomTabs";
 const Stack = createNativeStackNavigator();
 
 
-
 export function AppNavigator() {
   const [isLoading, setIsLoading] = useState(true);
   const [userRole, setUserRole] = useState<string | null>(null);
@@ -21,14 +20,10 @@ export function AppNavigator() {
         const loggedIn = await AsyncStorage.getItem('@user_logged_in');
         setUserRole(userRole)
         setuserLoggedIn(loggedIn);
-        console.log("loggedInloggedIn------------", loggedIn);
-        console.log("role----------", userRole)
       } catch (e) {
         console.error("Error checking login state:", e);
       }
       setIsLoading(false);
-      console.log("isLoggedIn  after---------------------------,", userLoggedIn)
-
     };
     checkLogin();
   }, []);
@@ -43,7 +38,6 @@ export function AppNavigator() {
 
     <Stack.Navigator >
       <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
-      {/* <Stack.Screen name="Tasks" component={BottomTabs} /> */}
       <Stack.Screen name="Tasks">
         {(props) => <BottomTabs {...props} userRole={userRole} />}
       </Stack.Screen>

@@ -1,6 +1,5 @@
-// SignOutScreen.tsx
-import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
