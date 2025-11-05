@@ -2,6 +2,7 @@
 import React from 'react';
 import { FlatList, View, Text, TouchableOpacity, StyleSheet, Platform, PlatformColor } from 'react-native';
 import { Card } from './Card';
+import { t } from 'i18next';
 
 type FlatListProps<T> = {
   data: T[];
@@ -49,18 +50,18 @@ export function FlastListComponent<T>({
                 {onToggleComplete && (
                   <TouchableOpacity onPress={() => onToggleComplete(item.id)}>
                     <Text style={styles.actionBtn}>
-                      {item.completed ? 'Mark Incomplete' : 'Mark Complete'}
+                      {item.completed ? t('signin.markInComplete') : t('signin.markComplete')}
                     </Text>
                   </TouchableOpacity>
                 )}
                 {onEdit && (
                   <TouchableOpacity onPress={() => onEdit(item)}>
-                    <Text style={styles.actionBtn}>Update</Text>
+                    <Text style={styles.actionBtn}>{t('signin.update')}</Text>
                   </TouchableOpacity>
                 )}
                 {onDelete && (
                   <TouchableOpacity onPress={() => onDelete(item.id)}>
-                    <Text style={styles.actionBtn}>Delete</Text>
+                    <Text style={styles.actionBtn}>{t('signin.delete')}</Text>
                   </TouchableOpacity>
                 )}
               </View>
@@ -101,15 +102,15 @@ const styles = StyleSheet.create({
   actionRow: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginRight: 10,
+    marginRight: 5,
   },
   actionBtn: {
     borderWidth: 2,
     borderColor: 'red',
     borderRadius: 5,
     paddingVertical: 5,
-    paddingHorizontal: 5,
-    marginLeft: 10,
+    paddingHorizontal: 0,
+    marginLeft: 4,
     color: '#000',
     marginTop: Platform.OS === 'android'? 15: 0,
   },

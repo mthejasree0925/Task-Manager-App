@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "types": ["jest", "node"],
+    "types": [
+      "jest",
+      "node"
+    ],
     "jsx": "react",
     "esModuleInterop": true,
     "allowJs": true,
@@ -8,5 +11,11 @@
     "skipLibCheck": true,
     "moduleResolution": "node"
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.test.ts", "**/*.test.tsx"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ],
+  "extends": "expo/tsconfig.base"
 }

@@ -1,0 +1,32 @@
+{
+  "signin": {
+    "title": "Sign In",
+    "email": "Email Address",
+    "password": "Password",
+   "mainTitle":"Sign In!! Please use your tietoevry credentials to login into the app!!",
+   "tasks": "TASKS",
+   "taskTitle":"Tasks screen with tabs!! Go to task details by clicking on Tasks!!",
+   "bottomtab1":"Tasks",
+   "bottomtab2":"Errors",
+   "bottomtab3":"SignOut",
+   "taskDetails":"TaskDetails",
+   "prevoius":"Previous",
+   "next":"Next",
+   "page":"Page",
+   "add": "ADD TASK",
+   "save": "SAVE TASK",
+   "addTaskTitle":"Add Task",
+   "addTaskDesc":"Add Task Description",
+   "update":"Update",
+   "delete":"Delete",
+   "markComplete":"Mark Complete",
+   "markInComplete":"MarkInComplete",
+   "errorTitle":"Text field is required",
+   "errorDesc":"Description field is required",
+   "errorEmail":"Enter a valid email",
+   "errorPassword":"Password is required",
+   "errorSignInConditionsForPassword":"Password must be at least 6 characters",
+   "invalidCredentials":"invalid credentials!"
+
+  }
+}

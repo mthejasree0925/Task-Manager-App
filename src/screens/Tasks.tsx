@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import MyButton from '../components/Button';
+import { t } from 'i18next';
 
 export default function Tasks() {
   const navigation = useNavigation();
@@ -12,9 +13,9 @@ export default function Tasks() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Tasks screen with tabs!! Go to task details by clicking on Tasks!!</Text>
+      <Text style={styles.text}>{t('signin.taskTitle')}</Text>
       <MyButton
-        title="TASKS"
+        title={t('signin.tasks')}
         onPress={navigateToTaskDetails}
         buttonStyle={styles.button}
         textStyle={styles.buttonText}
