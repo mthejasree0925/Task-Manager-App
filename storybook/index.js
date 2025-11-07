@@ -1,10 +1,8 @@
-// import { getStorybookUI, configure } from '@storybook/react-native';
+import { getStorybookUI } from '@storybook/react-native';
 
-// // Import stories
-// configure(() => {
-//   require('../stories');
-// }, module);
 
-// const StorybookUIRoot = getStorybookUI({});
+const StorybookUIRoot = getStorybookUI({
+  asyncStorage: null,
+});
 
-// export default StorybookUIRoot;
+export default StorybookUIRoot;

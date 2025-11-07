@@ -1,9 +1,9 @@
 import React from 'react';
-import MyButton from '../src/components/Button'; // adjust import path
+import MyButton from '../../src/components/Button';
 import { View } from 'react-native';
 
 export default {
-  title: 'MyButton',
+  titleBuuton: 'MyButton',
   component: MyButton,
 };
 

@@ -6,15 +6,16 @@ import StorybookUIRoot from './storybook';
 import { SHOW_STORYBOOK } from './storybook/toggle';
 import './src/i18n/i18n';
 export default function App() {
-  // if (SHOW_STORYBOOK) {
-  //   return <StorybookUIRoot />;
-  // }
-
-  return (
-    <SafeAreaProvider>
+  if (SHOW_STORYBOOK) {
+    return <StorybookUIRoot />;
+  }
+  else {
+    return (
+      <SafeAreaProvider>
         <NavigationContainer>
           <AppNavigator />
         </NavigationContainer>
-    </SafeAreaProvider>
-  );
+      </SafeAreaProvider>
+    );
+  }
 }

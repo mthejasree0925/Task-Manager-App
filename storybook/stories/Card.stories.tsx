@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card } from '../src/components/Card';
+import { Card } from '../../src/components/Card';
 import { Text } from 'react-native';
 
 export default {
-  title: 'Card',
+  titleCard: 'Card',
   component: Card,
 };
 
