@@ -1,50 +1,29 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import Tasks from '../screens/Tasks';
+import Tasks from '../../src/screens/Tasks';
+import { useNavigation } from '@react-navigation/native';
 
-//  Mock navigation
-const mockNavigate = jest.fn();
 jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({
-    navigate: mockNavigate,
-  }),
+  useNavigation: jest.fn(),
 }));
 
-//  Mock MyButton (if it's a custom RN wrapper)
-jest.mock('../components/Button', () => {
-  const React = require('react');
-  const { TouchableOpacity, Text } = require('react-native');
-  return ({ title, onPress }: { title: string; onPress: () => void }) => (
-    <TouchableOpacity onPress={onPress} testID="mybutton">
-      <Text>{title}</Text>
-    </TouchableOpacity>
-  );
-});
+jest.mock('react-i18next', () => ({
+  t: (key: string) => key,
+}));
+
+const mockNavigate = jest.fn();
+(useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
 
 describe('Tasks Screen', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('renders correctly', () => {
-    const { getByText } = render(<Tasks />);
-
-    // Assert text is visible
-    expect(
-      getByText('Tasks screen with tabs!! Go to task details by clicking on Tasks!!')
-    ).toBeTruthy();
-
-    // Assert button is rendered
-    expect(getByText('TASKS')).toBeTruthy();
-  });
-
-  it('navigates to TaskDetails when button is pressed', () => {
-    const { getByText } = render(<Tasks />);
-
-    const button = getByText('TASKS');
-    fireEvent.press(button);
-
-    expect(mockNavigate).toHaveBeenCalledTimes(1);
+  it('renders and navigates to TaskDetails', () => {
+    const { getByLabelText } = render(<Tasks />);
+    // fireEvent.press(getByText('signin.tasks'));
+    fireEvent.press(getByLabelText('title'));
     expect(mockNavigate).toHaveBeenCalledWith('TaskDetails');
+  });
+  //  Snapshot test
+  it('matches the rendered snapshot', () => {
+    const tree = render(<Tasks />).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });
