@@ -80,6 +80,7 @@ export default function SignIn() {
       await AsyncStorage.setItem('@user_logged_in', 'true');
       // navigate to authenticated screen
       if (user) {
+        console.log("user================",user);
         navigation.navigate("Tasks", { role: user })
       }
     } catch (e) {

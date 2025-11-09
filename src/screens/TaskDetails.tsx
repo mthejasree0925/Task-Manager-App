@@ -4,6 +4,7 @@ import MyButton from '../components/Button';
 import { FlastListComponent } from '../components/FlatList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { t } from 'i18next';
+import React from 'react';
 
 export default function TaskDetails() {
   const [title, setTitle] = useState('');
@@ -147,7 +148,7 @@ export default function TaskDetails() {
         {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
 
         <TextInput
-          placeholder={t('signin.addTaskDescription')}
+          placeholder={t('signin.addTaskDesc')}
           value={desc}
           onChangeText={setDesc}
           style={styles.input}

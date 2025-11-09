@@ -36,7 +36,7 @@ export function AppNavigator() {
 
   return (
 
-    <Stack.Navigator >
+    <Stack.Navigator  id="stack-tabs">
       <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
       <Stack.Screen name="Tasks">
         {(props) => <BottomTabs {...props} userRole={userRole} />}

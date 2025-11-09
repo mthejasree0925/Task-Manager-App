@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from '@storybook/react-native';
 
 const preview: Preview = {
   parameters: {
@@ -9,8 +9,6 @@ const preview: Preview = {
       },
     },
   },
-
-  tags: ["autodocs"]
 };
 
 export default preview;
