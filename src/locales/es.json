@@ -1,0 +1,31 @@
+{
+  "signin": {
+    "title": "Iniciar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+   "mainTitle":"¡Inicia sesión! Por favor, utiliza tus credenciales de Tietoevry para acceder a la aplicación.",
+   "tasks": "TAREAS",
+  "taskTitle": "Pantalla de tareas con pestañas. ¡Ve a los detalles de la tarea haciendo clic en Tareas!",
+    "bottomtab1": "Tareas",
+  "bottomtab2": "Errores",
+  "bottomtab3": "Cerrar sesión",
+  "taskDetails": "Detalles de la tarea",
+  "previous": "Anterior",
+  "next": "Siguiente",
+  "page": "Página",
+  "add": "AGREGAR TAREA",
+  "save": "GUARDAR TAREA",
+  "addTaskTitle": "Agregar tarea",
+  "addTaskDesc": "Agregar descripción de la tarea",
+  "update": "Actualizar",
+  "delete": "Eliminar",
+  "markComplete": "Marcarcomo completada",
+  "markInComplete": "Marcarcomo incompleta",
+   "errorTitle": "El campo de texto es obligatorio",
+  "errorDesc": "El campo de descripción es obligatorio",
+   "errorEmail": "Introduce un correo electrónico válido",
+  "errorPassword": "La contraseña es obligatoria",
+  "errorSignInConditionsForPassword": "La contraseña debe tener al menos 6 caracteres",
+   "invalidCredentials": "¡Credenciales inválidas!"
+  }
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "title": "Explain conversational follow-up ",
+    "description": "Describe how RN handles follow-up questions in a dialogue format as highlighted on the introduction page."
+  },
+  {
+    "id": 2,
+    "title": "List limitations of RN",
+    "description": "Identify the key limitations of RN mentioned (such as plausible-but-incorrect answers, sensitivity to prompt phrasing) from the overview page. :contentReference[oaicite:0]{index=0}"
+  },
+  {
+    "id": 3,
+    "title": "Describe training methodology",
+    "description": "Explain the training method used for RN, including supervised fine-tuning and reinforcement learning from human feedback (RLHF). :contentReference[oaicite:1]{index=1}"
+  },
+  {
+    "id": 4,
+    "title": "Summarise the deployment strategy",
+    "description": "Summarise the iterative deployment approach used by OpenAI when releasing RN (learning from prior model deployments). :contentReference[oaicite:2]{index=2}"
+  },
+  {
+    "id": 5,
+    "title": "Provide sample user-assistant interactions",
+    "description": "Give three example prompts and responses that represent how RN interacts with users, as shown on the landing page."
+  },
+  {
+    "id": 6,
+    "title": "Define relationship to InstructGPT",
+    "description": "Explain how RN is described in relation to InstructGPT (its sibling model) in the introduction. :contentReference[oaicite:3]{index=3}"
+  },
+  {
+    "id": 7,
+    "title": "Identify safety & moderation mechanisms",
+    "description": "List and describe the safety, moderation, or filtering mechanisms mentioned in the RN overview. :contentReference[oaicite:4]{index=4}"
+  },
+  {
+    "id": 8,
+    "title": "Describe user-feedback process",
+    "description": "Explain the kind of feedback that OpenAI is requesting from users of RN (e.g., for improving the model). :contentReference[oaicite:5]{index=5}"
+  },
+  {
+    "id": 9,
+    "title": "Outline major headings & contents",
+    "description": "List the major headings on the RN overview page (Methods, Limitations, Iterative deployment etc.) and summarise what each section covers. :contentReference[oaicite:6]{index=6}"
+  },
+  {
+    "id": 10,
+    "title": "Provide use-cases and sample prompts",
+    "description": "Give two or more use-cases or sample prompts showcasing how RN can be used (writing, learning, code, image generation) as indicated on the overview page. :contentReference[oaicite:7]{index=7}"
+  }
+]
