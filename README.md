@@ -1,13 +1,13 @@
 # Task-Manager-App
 App for both Android and web
-1. npm install.(it will install story book as well)
+1. npm install 
 or 
 npm install --legacy-peer-deps
 2. run app in web
-npm run expo start 
+npm run start 
 
 3. run android app through physical device from cmd without android studio
-npm run expo start 
+npm run  start (scan code on mobile)
 
 3. reload web app from cmd
 use r 
