@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorsScreen matches the rendered snapshot 1`] = `
+<View
+  style={
+    {
+      "flex": 1,
+      "padding": 12,
+    }
+  }
+>
+  <RCTScrollView
+    accessibilityLabel="errors-list"
+    data={
+      [
+        {
+          "id": "1",
+          "message": "Network error",
+          "ts": "2025-11-09T10:00:00Z",
+        },
+        {
+          "id": "2",
+          "message": "Authentication failed",
+          "ts": "2025-11-09T11:00:00Z",
+        },
+      ]
+    }
+    getItem={[Function]}
+    getItemCount={[Function]}
+    keyExtractor={[Function]}
+    onContentSizeChange={[Function]}
+    onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={0.0001}
+    stickyHeaderIndices={[]}
+    viewabilityConfigCallbackPairs={[]}
+  >
+    <View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityLabel="mock-card"
+        >
+          <Text>
+            Network error
+          </Text>
+          <Text>
+            2025-11-09T10:00:00Z
+          </Text>
+        </View>
+      </View>
+      <View
+        onFocusCapture={[Function]}
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          accessibilityLabel="mock-card"
+        >
+          <Text>
+            Authentication failed
+          </Text>
+          <Text>
+            2025-11-09T11:00:00Z
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

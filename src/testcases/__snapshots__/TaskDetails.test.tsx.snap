@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaskDetails Screen matches the rendered snapshot 1`] = `
+<View
+  style={
+    {
+      "flex": 1,
+      "padding": 20,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "marginBottom": 12,
+      }
+    }
+  >
+    <TextInput
+      accessibilityLabel="task-title"
+      onChangeText={[Function]}
+      placeholder="signin.addTaskTitle"
+      style={
+        {
+          "borderWidth": 1,
+          "marginVertical": 6,
+          "padding": 8,
+        }
+      }
+      value=""
+    />
+    <TextInput
+      accessibilityLabel="task-desc"
+      onChangeText={[Function]}
+      placeholder="signin.addTaskDesc"
+      style={
+        {
+          "borderWidth": 1,
+          "marginVertical": 6,
+          "padding": 8,
+        }
+      }
+      value=""
+    />
+    <View
+      style={
+        {
+          "marginTop": 20,
+        }
+      }
+    >
+      <View
+        accessibilityLabel="add-save-button"
+        accessibilityRole="button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {},
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#007AFF",
+                  "fontSize": 18,
+                  "margin": 8,
+                  "textAlign": "center",
+                },
+              ]
+            }
+          >
+            signin.add
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "marginVertical": 10,
+      }
+    }
+  >
+    <button
+      onClick={[Function]}
+    >
+      signin.previous
+    </button>
+    <Text
+      style={
+        {
+          "color": "#333",
+          "fontSize": 16,
+        }
+      }
+    >
+      signin.page
+       
+      1
+       of 
+      1
+    </Text>
+    <button
+      onClick={[Function]}
+    >
+      signin.next
+    </button>
+  </View>
+</View>
+`;

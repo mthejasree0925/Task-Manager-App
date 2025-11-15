@@ -1,12 +1,12 @@
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import MyButton from '../components/Button';
-import { useState } from 'react';
+import { t } from 'i18next';
 
 export default function Tasks() {
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
 
   const navigateToTaskDetails = () => {
     navigation.navigate('TaskDetails');
@@ -14,13 +14,12 @@ export default function Tasks() {
 
   return (
     <View style={styles.container}>
-      <Text>Tasks screen</Text>
+      <Text style={styles.text}>{t('signin.taskTitle')}</Text>
       <MyButton
-        title="TASKS"
+        title={t('signin.tasks')}
         onPress={navigateToTaskDetails}
-        loading={loading}
-        buttonStyle={{ backgroundColor: '#4caf50' }}
-        textStyle={{ color: '#fff' }}
+        buttonStyle={styles.button}
+        textStyle={styles.buttonText}
       />
       <StatusBar style="auto" />
     </View>
@@ -34,4 +33,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    textAlign: 'center',
+    padding: 20
+  },
+  button: { backgroundColor: '#4caf50' },
+  buttonText: {
+    color: '#fff'
+  }
 });
