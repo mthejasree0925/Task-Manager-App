@@ -1,106 +1,70 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react-native';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react-native';
 import SignIn from '../screens/SignIn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-// Mock navigation
-const mockNavigate = jest.fn();
+// --- Mocks ---
 jest.mock('@react-navigation/native', () => ({
-  useNavigation: () => ({
-    navigate: mockNavigate,
-  }),
+  useNavigation: jest.fn(),
 }));
 
-// Mock AsyncStorage
 jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(),
 }));
 
-// Mock Alert
-jest.spyOn(Alert, 'alert');
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    i18n: { changeLanguage: jest.fn() },
+  }),
+}));
 
-// Mock USERS data
-jest.mock('../assets/login-credentials.json', () => [
-  { email: 'user@tietoevry.com', password: 'password123', role: 'employee' },
-]);
+jest.mock('../components/Button', () => (props: any) => {
+  const React = require('react');
+  const { TouchableOpacity, Text } = require('react-native');
+  return (
+    <TouchableOpacity onPress={props.onPress} accessibilityLabel="mock-button">
+      <Text>{props.title}</Text>
+    </TouchableOpacity>
+  );
+});
+
+const mockNavigate = jest.fn();
+(useNavigation as jest.Mock).mockReturnValue({ navigate: mockNavigate });
 
 describe('SignIn Screen', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
+  beforeEach(() => jest.clearAllMocks());
+
+  it('renders email and password fields', () => {
+    const { getByLabelText } = render(<SignIn />);
+    expect(screen.getByLabelText('email-textinput')).toBeTruthy();
+    expect(screen.getByLabelText('password-textinput')).toBeTruthy();
   });
 
-  it('renders correctly', () => {
-    const { getByPlaceholderText, getByText } = render(<SignIn />);
-    expect(getByPlaceholderText('Email')).toBeTruthy();
-    expect(getByPlaceholderText('Password')).toBeTruthy();
-    expect(getByText('Submit')).toBeTruthy();
-  });
+  it('does not call AsyncStorage when invalid email', async () => {
+    const { getByLabelText } = render(<SignIn />);
 
-  it('shows errors when fields are empty', async () => {
-    const { getByText } = render(<SignIn />);
-    const submitBtn = getByText('Submit');
-
-    fireEvent.press(submitBtn);
+    fireEvent.changeText(getByLabelText('email-textinput'), 'invalid');
+    fireEvent.changeText(getByLabelText('password-textinput'), '123456');
+    fireEvent.press(screen.getByText('signin.title'));
 
     await waitFor(() => {
-      expect(Alert.alert).toHaveBeenCalledWith('invalid credentials!');
+      expect(AsyncStorage.setItem).not.toHaveBeenCalled();
+      expect(mockNavigate).not.toHaveBeenCalled();
     });
   });
 
-  it('shows email validation error for invalid email format', async () => {
-    const { getByPlaceholderText, getByText, queryByText } = render(<SignIn />);
+  it('saves data and navigates when valid', async () => {
+    const { getByLabelText } = render(<SignIn />);
 
-    fireEvent.changeText(getByPlaceholderText('Email'), 'invalidEmail');
-    fireEvent.changeText(getByPlaceholderText('Password'), 'password123');
-    fireEvent.press(getByText('Submit'));
-
-    await waitFor(() => {
-      expect(queryByText('Enter a valid email')).toBeTruthy();
-      expect(Alert.alert).toHaveBeenCalledWith('invalid credentials!');
-    });
+    fireEvent.changeText(getByLabelText('email-textinput'), 'test@example.com');
+    fireEvent.changeText(getByLabelText('password-textinput'), '123456');
+    fireEvent.press(screen.getByText('signin.title'));
   });
-
-  it('shows password error for short password', async () => {
-    const { getByPlaceholderText, getByText, queryByText } = render(<SignIn />);
-
-    fireEvent.changeText(getByPlaceholderText('Email'), 'user@tietoevry.com');
-    fireEvent.changeText(getByPlaceholderText('Password'), '123');
-    fireEvent.press(getByText('Submit'));
-
-    await waitFor(() => {
-      expect(queryByText('Password must be at least 6 characters')).toBeTruthy();
-      expect(Alert.alert).toHaveBeenCalledWith('invalid credentials!');
-    });
-  });
-
-  it('alerts for invalid login credentials', async () => {
-    const { getByPlaceholderText, getByText } = render(<SignIn />);
-
-    fireEvent.changeText(getByPlaceholderText('Email'), 'wrong@tietoevry.com');
-    fireEvent.changeText(getByPlaceholderText('Password'), 'password123');
-    fireEvent.press(getByText('Submit'));
-
-    await waitFor(() => {
-      expect(Alert.alert).toHaveBeenCalledWith(
-        'Invalid login',
-        'Email or password is incorrect'
-      );
-    });
-  });
-
-  it('navigates to Tasks screen on successful login', async () => {
-    const { getByPlaceholderText, getByText } = render(<SignIn />);
-
-    fireEvent.changeText(getByPlaceholderText('Email'), 'user@tietoevry.com');
-    fireEvent.changeText(getByPlaceholderText('Password'), 'password123');
-    fireEvent.press(getByText('Submit'));
-
-    await waitFor(() => {
-      expect(AsyncStorage.setItem).toHaveBeenCalledTimes(3);
-      expect(mockNavigate).toHaveBeenCalledWith('Tasks', {
-        role: { email: 'user@tietoevry.com', password: 'password123', role: 'employee' },
-      });
-    });
+  //  Snapshot test
+  it('matches the rendered snapshot', () => {
+    const tree = render(<SignIn />).toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });

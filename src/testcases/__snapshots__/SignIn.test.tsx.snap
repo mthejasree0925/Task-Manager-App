@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignIn Screen matches the rendered snapshot 1`] = `
+<RCTScrollView
+  automaticallyAdjustContentInsets={false}
+  contentContainerStyle={
+    {
+      "flexGrow": 1,
+      "justifyContent": "center",
+    }
+  }
+  contentInset={
+    {
+      "bottom": 0,
+    }
+  }
+  enableAutomaticScroll={true}
+  enableOnAndroid={true}
+  enableResetScrollToCoords={true}
+  extraHeight={75}
+  extraScrollHeight={100}
+  getScrollResponder={[Function]}
+  handleOnScroll={[Function]}
+  keyboardDismissMode="interactive"
+  keyboardOpeningTime={250}
+  keyboardSpace={0}
+  onScroll={[Function]}
+  resetKeyboardSpace={[Function]}
+  scrollEventThrottle={1}
+  scrollForExtraHeightOnAndroid={[Function]}
+  scrollIntoView={[Function]}
+  scrollToEnd={[Function]}
+  scrollToFocusedInput={[Function]}
+  scrollToPosition={[Function]}
+  showsVerticalScrollIndicator={true}
+  update={[Function]}
+  viewIsInsideTabBar={false}
+>
+  <View>
+    <View
+      style={
+        {
+          "backgroundColor": "#fff",
+          "flex": 1,
+          "justifyContent": "center",
+          "padding": 20,
+        }
+      }
+    >
+      <Text
+        accessibilityLabel="title"
+        style={
+          {
+            "fontSize": 24,
+            "marginBottom": 20,
+            "textAlign": "center",
+          }
+        }
+      >
+        signin.mainTitle
+      </Text>
+      <TextInput
+        accessibilityLabel="email-textinput"
+        autoCapitalize="none"
+        keyboardType="email-address"
+        onChangeText={[Function]}
+        placeholder="signin.email"
+        style={
+          {
+            "borderColor": "#ccc",
+            "borderRadius": 5,
+            "borderWidth": 1,
+            "marginBottom": 10,
+            "padding": 12,
+          }
+        }
+        value=""
+      />
+      <TextInput
+        accessibilityLabel="password-textinput"
+        onChangeText={[Function]}
+        placeholder="signin.password"
+        secureTextEntry={true}
+        style={
+          {
+            "borderColor": "#ccc",
+            "borderRadius": 5,
+            "borderWidth": 1,
+            "marginBottom": 10,
+            "padding": 12,
+          }
+        }
+        value=""
+      />
+      <View
+        accessibilityLabel="mock-button"
+        accessibilityState={
+          {
+            "busy": undefined,
+            "checked": undefined,
+            "disabled": undefined,
+            "expanded": undefined,
+            "selected": undefined,
+          }
+        }
+        accessibilityValue={
+          {
+            "max": undefined,
+            "min": undefined,
+            "now": undefined,
+            "text": undefined,
+          }
+        }
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "opacity": 1,
+          }
+        }
+      >
+        <Text>
+          signin.title
+        </Text>
+      </View>
+    </View>
+  </View>
+</RCTScrollView>
+`;

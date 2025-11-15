@@ -1,9 +1,9 @@
 import React from 'react';
-import { FlastListComponent } from '../src/components/FlatList';
+import { FlastListComponent } from '../../src/components/FlatList';
 import { View } from 'react-native';
 
 export default {
-  title: 'FlatListComponent',
+  titleFlatList: 'FlatListComponent',
   component: FlastListComponent,
 };
 

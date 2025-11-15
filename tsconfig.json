@@ -15,7 +15,10 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.test.ts",
-    "**/*.test.tsx"
+    "**/*.test.tsx",
+    "src",
+    "storybook",
+    ".storybook",
   ],
   "extends": "expo/tsconfig.base"
 }

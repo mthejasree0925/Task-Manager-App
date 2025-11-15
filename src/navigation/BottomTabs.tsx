@@ -1,3 +1,4 @@
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabBarIcon } from "../components/TabBarIcon";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -11,6 +12,7 @@ const BottomTabs = ({ userRole }: any) => {
   return (
 
     <Tab.Navigator
+     id="bottom-tabs"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
