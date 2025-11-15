@@ -1,90 +1,133 @@
-import { Button, FlatList, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useState } from 'react';
-import { Card } from '../components/Card';
+import { Button, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useEffect, useState } from 'react';
 import MyButton from '../components/Button';
+import { FlastListComponent } from '../components/FlatList';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { t } from 'i18next';
+import React from 'react';
 
 export default function TaskDetails() {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [errorDesc, setErrorDesc] = useState<string | null>(null);
-  const [tasks, setTasks] = useState([]);
-  const [isAdded, setIsAdded] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [tasks, setTasks] = useState<any[]>([]);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-
+  const [pageItems, setPageItems] = useState<any[]>([]);
+  const [safePage, setSafePage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 5;
-  const totalPages = Math.max(1, Math.ceil(tasks.length / itemsPerPage));
-  const safePage = Math.min(currentPage, totalPages);
-  const startIndex = (safePage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const pageItems = tasks.slice(startIndex, endIndex);
 
-  //handle add task with validation
+  //  Compute pagination whenever tasks or currentPage changes
+  useEffect(() => {
+    const computedTotalPages = Math.max(1, Math.ceil(tasks.length / itemsPerPage));
+    const computedSafePage = Math.min(currentPage, computedTotalPages);
+    const startIndex = (computedSafePage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const sliced = tasks.slice(startIndex, endIndex);
+
+    if (currentPage !== computedSafePage) {
+      setCurrentPage(computedSafePage);
+    }
+    setSafePage(computedSafePage);
+    setTotalPages(computedTotalPages);
+    setPageItems(sliced);
+  }, [tasks, currentPage]);
+
+  //  Load all saved tasks on startup
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('TASKS');
+        if (jsonValue != null) {
+          const storedTasks = JSON.parse(jsonValue);
+          setTasks(storedTasks);
+          setCurrentPage(1);
+        }
+      } catch (e) {
+        console.error('Error loading saved tasks:', e);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  //  Save entire tasks list whenever it changes
+  useEffect(() => {
+    const saveData = async () => {
+      try {
+        await AsyncStorage.setItem('TASKS', JSON.stringify(tasks));
+      } catch (e) {
+        console.error('Error saving tasks:', e);
+      }
+    };
+
+    if (tasks.length >= 0) saveData();
+  }, [tasks]);
+
+  //  Add or update a task
   const handleAddOrSaveTask = () => {
-    if (title.trim().length > 0) {
-      setIsAdded(true);
-      setError('');
-    } else {
-      setError('Title field is required');
-    }
-    if (desc.trim().length > 0) {
-      setIsAdded(true);
+    let valid = true;
+    if (title.trim().length === 0) {
+      setError(t('signin.errorTitle'));
+      valid = false;
+    } else setError(null);
 
-      setErrorDesc('');
-    } else {
-      setErrorDesc('Description field is required');
-    }
+    if (desc.trim().length === 0) {
+      setErrorDesc(t('signin.errorDesc'));
+      valid = false;
+    } else setErrorDesc(null);
+
+    if (!valid) return;
+
     if (editingId) {
-      // save update
-      onUpdate(editingId, title.trim(), desc.trim());
+      // Update existing task
+      setTasks(prev =>
+        prev.map(task =>
+          task.id === editingId ? { ...task, title: title.trim(), description: desc.trim() } : task
+        )
+      );
+      setEditingId(null);
     } else {
-      // add new
+      // Add new task
       const newTask = {
         id: Date.now().toString(),
         title: title.trim(),
         description: desc.trim(),
         completed: false,
       };
-      setTasks(prev => [...prev, newTask]);
+      const newTasks = [...tasks, newTask];
+      setTasks(newTasks);
+
+      // Move to last page automatically
+      const newTotalPages = Math.ceil(newTasks.length / itemsPerPage);
+      setCurrentPage(newTotalPages);
     }
-    // Clear form
+
+    // Reset form
     setTitle('');
     setDesc('');
-    setEditingId(null);
-
-    // Optionally reset to last page so new item shows up
-    setCurrentPage(totalPages + (editingId ? 0 : 1));
-    setIsAdded(true);
-  };
-  // Update task based on id
-  const onUpdate = (id: string, newTitle: string, newDescription: string) => {
-    setTasks(prevTasks =>
-      prevTasks.map(task =>
-        task.id === id ? { ...task, title: newTitle, description: newDescription } : task
-      )
-    );
   };
 
-  // Delete task
+  //  Delete a task
   const onDelete = (id: string) => {
     setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
   };
-  // Start editing mode for a task
-  const startEdit = (item: { id: string, title: string, description: string }) => {
+
+  //  Edit a task
+  const startEdit = (item: { id: string; title: string; description: string }) => {
     setEditingId(item.id);
     setTitle(item.title);
     setDesc(item.description);
-
   };
-  // add this toggle handler
+
+  //  Toggle completion
   const onToggleComplete = (id: string) => {
     setTasks(prevTasks =>
       prevTasks.map(task =>
-        task.id === id
-          ? { ...task, completed: !task.completed }
-          : task
+        task.id === id ? { ...task, completed: !task.completed } : task
       )
     );
   };
@@ -92,96 +135,76 @@ export default function TaskDetails() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      {/* Form for input such as title and description */}
+
+       {/* Task input form  */}
       <View style={styles.form}>
-        <TextInput placeholder="title"
+        <TextInput
+          placeholder={t('signin.addTaskTitle')}
           value={title}
           onChangeText={setTitle}
           style={styles.input}
-          accessibilityLabel="task-title" />
+          accessibilityLabel="task-title"
+        />
         {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
-        <TextInput placeholder="description"
+
+        <TextInput
+          placeholder={t('signin.addTaskDesc')}
           value={desc}
           onChangeText={setDesc}
           style={styles.input}
-          accessibilityLabel="task-desc" />
+          accessibilityLabel="task-desc"
+        />
         {errorDesc ? <Text style={{ color: 'red', marginBottom: 20 }}>{errorDesc}</Text> : null}
-        {/* Add button */}
 
         <View style={{ marginTop: 20 }}>
           <Button
-            title={editingId ? "Save" : "Add"}
+            title={editingId ? t('signin.save') : t('signin.add')}
             onPress={handleAddOrSaveTask}
             accessibilityLabel="add-save-button"
           />
         </View>
       </View>
-      {/* flatlist for displaying list of taks */}
-      <FlatList
+
+      {/* Task List */}
+      <FlastListComponent
         data={pageItems}
         keyExtractor={(i) => i.id}
-        renderItem={({ item }) => (
-          <Card>
-            <View style={styles.item}>
-              <Text style={item.completed ? styles.completedTitle : styles.title}>{item.title}</Text>
-              <Text style={item.completed ? styles.completedDescription : styles.description}>{item.description}</Text>
-
-
-              {isAdded &&
-                <View style={styles.actionRow}>
-                  {/* Toggle complete/incomplete button */}
-                  <TouchableOpacity onPress={() => onToggleComplete(item.id)}>
-                    <Text style={styles.actionBtn}>
-                      {item.completed ? "Mark Incomplete" : "Mark Complete"}
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => startEdit(item)}>
-                    <Text style={styles.actionBtn}>Update</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => onDelete(item.id)}>
-                    <Text style={styles.actionBtn}>Delete</Text>
-                  </TouchableOpacity>
-                </View>
-              }
-            </View>
-          </Card>
-
-
-
-        )
-        }
-        ListEmptyComponent={
-          < View style={styles.emptyContainer} >
-            <Text style={styles.emptyText}>No tasks found. Add one above!</Text>
-          </View >
-        }
+        renderTitle={(i) => i.title}
+        renderDescription={(i) => i.description}
+        onToggleComplete={onToggleComplete}
+        onDelete={onDelete}
+        onEdit={startEdit}
+        isEditable
       />
-      < View style={styles.paginationRow} >
 
-
+      {/*  Pagination */}
+      <View style={styles.paginationRow}>
         <MyButton
-          title="Previous"
+          title={t('signin.previous')}
           onPress={() => setCurrentPage(p => Math.max(p - 1, 1))}
-          disabled={safePage === 1}
-
+          disabled={safePage <= 1}
           buttonStyle={{ backgroundColor: '#4caf50' }}
           textStyle={{ color: '#fff' }}
         />
+
+        <Text style={styles.pageInfo}>
+          {t('signin.page')} {safePage} of {totalPages}
+        </Text>
+
         <MyButton
-          title="Next"
+          title={t('signin.next')}
           onPress={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-          disabled={safePage === totalPages}
-
+          disabled={safePage >= totalPages}
           buttonStyle={{ backgroundColor: '#4caf50' }}
           textStyle={{ color: '#fff' }}
         />
-      </View >
-    </View >
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, },
+  container: { flex: 1, padding: 20 },
   form: { marginBottom: 12 },
   input: { borderWidth: 1, padding: 8, marginVertical: 6 },
   item: { padding: 10 },
@@ -218,6 +241,7 @@ const styles = StyleSheet.create({
   },
   pageInfo: {
     fontSize: 16,
+    color: '#333',
   },
   completedTitle: {
     textDecorationLine: 'line-through',

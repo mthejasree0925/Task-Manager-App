@@ -2,13 +2,20 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AppNavigator } from './src/navigation';
+import './src/i18n/i18n';
 
-export default function App() {
+
+
+function App() {
   return (
     <SafeAreaProvider>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }
+
+export default App;
+
+

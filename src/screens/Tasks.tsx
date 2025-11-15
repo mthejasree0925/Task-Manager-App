@@ -1,45 +1,25 @@
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import MyButton from '../components/Button';
-import { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { t } from 'i18next';
 
 export default function Tasks() {
   const navigation = useNavigation();
-  const [loading, setLoading] = useState(false);
 
   const navigateToTaskDetails = () => {
     navigation.navigate('TaskDetails');
   };
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const email = await AsyncStorage.getItem('@user_email');
-        const role = await AsyncStorage.getItem('@user_role');
-        if (email && role) {
-          // user is already logged in
-          navigation.navigate("Tasks", { role });
-        } else {
-          // show sign in screen
-          navigation.navigate("SignIn", { role });
-        }
-      } catch (e) {
-        console.error("Error loading user data", e);
-      }
-    };
-    loadUserData();
-  }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={{textAlign:'center', padding: 20}}>Tasks screen with tabs!! Go to task details by clicking on Tasks!!</Text>
+      <Text style={styles.text}>{t('signin.taskTitle')}</Text>
       <MyButton
-        title="TASKS"
+        title={t('signin.tasks')}
         onPress={navigateToTaskDetails}
-        loading={loading}
-        buttonStyle={{ backgroundColor: '#4caf50' }}
-        textStyle={{ color: '#fff' }}
+        buttonStyle={styles.button}
+        textStyle={styles.buttonText}
       />
       <StatusBar style="auto" />
     </View>
@@ -53,4 +33,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  text: {
+    textAlign: 'center',
+    padding: 20
+  },
+  button: { backgroundColor: '#4caf50' },
+  buttonText: {
+    color: '#fff'
+  }
 });

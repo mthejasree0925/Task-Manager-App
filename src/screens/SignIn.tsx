@@ -12,15 +12,21 @@ import USERS from "../assets/login-credentials.json"
 import MyButton from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { useTranslation } from 'react-i18next';
 
 
-export default function SignInScreen() {
-  const navigation = useNavigation();
+export default function SignIn() {
+   const { t, i18n } = useTranslation();
+
+  const switchLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+  };
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");;
-
+  const navigation = useNavigation();
 
   const validate = () => {
     let valid = true;
@@ -31,59 +37,54 @@ export default function SignInScreen() {
 
     // email empty?
     if (!email.trim()) {
-      setEmailError("Email is required");
+      setEmailError(t('signin.errorEmail'));
       valid = false;
     } else {
       // simple email format check
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        setEmailError("Enter a valid email");
+        setEmailError(t('signin.errorEmail'));
         valid = false;
       }
     }
 
     // password empty?
     if (!password) {
-      setPasswordError("Password is required");
+      setPasswordError(t('signin.errorPassword'));
       valid = false;
     } else if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+      setPasswordError(t('signin.errorSignInConditionsForPassword'));
       valid = false;
     }
 
     return valid;
   };
 
+
   const handleLogin = async () => {
     if (!validate()) {
-      Alert.alert("invalid credentials!")
+      Alert.alert(t("signin.invalidCredentials"))
       return; // stop if validation fails
     }
-
-    // mock login logic
     const user = USERS.find(
       u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
     );
 
     if (!user) {
-      Alert.alert("Invalid login", "Email or password is incorrect");
       return;
     }
     // after validating user login
-    // const { email, role } = user;
     try {
       await AsyncStorage.setItem('@user_email', user.email);
       await AsyncStorage.setItem('@user_role', user.role);
       await AsyncStorage.setItem('@user_logged_in', 'true');
       // navigate to authenticated screen
       if (user) {
-        navigation.navigate("Tasks", { role: user.role })
+        navigation.navigate("Tasks", { role: user })
       }
     } catch (e) {
       console.error("Error saving user data", e);
     }
-
-
   };
 
   return (
@@ -93,12 +94,10 @@ export default function SignInScreen() {
       enableOnAndroid={true}
     >
       <View style={styles.container}>
-
-        <Text style={styles.title} accessibilityLabel='title'>Sign In!! Please use your tietoevry credentials to login into the app!!</Text>
-
+        <Text style={styles.title} accessibilityLabel='title'>{t('signin.mainTitle')}</Text>
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder= {t('signin.email')}
           autoCapitalize="none"
           keyboardType="email-address"
           value={email}
@@ -106,20 +105,17 @@ export default function SignInScreen() {
           accessibilityLabel='email-textinput'
         />
         {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
-
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder={t('signin.password')}
           secureTextEntry
           value={password}
           onChangeText={text => setPassword(text)}
           accessibilityLabel='password-textinput'
-
         />
         {passwordError ? <Text style={styles.errorText}>{passwordError}</Text> : null}
-
         <MyButton
-          title="Submit"
+          title={t('signin.title')}
           onPress={handleLogin}
           buttonStyle={{ backgroundColor: '#4caf50' }}
           textStyle={{ color: '#fff' }}
