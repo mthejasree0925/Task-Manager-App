@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import MyButton from '../components/Button';
 import { FlastListComponent } from '../components/FlatList';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { t } from 'i18next';
+import React from 'react';
 
 export default function TaskDetails() {
   const [title, setTitle] = useState('');
@@ -69,12 +71,12 @@ export default function TaskDetails() {
   const handleAddOrSaveTask = () => {
     let valid = true;
     if (title.trim().length === 0) {
-      setError('Title field is required');
+      setError(t('signin.errorTitle'));
       valid = false;
     } else setError(null);
 
     if (desc.trim().length === 0) {
-      setErrorDesc('Description field is required');
+      setErrorDesc(t('signin.errorDesc'));
       valid = false;
     } else setErrorDesc(null);
 
@@ -137,7 +139,7 @@ export default function TaskDetails() {
        {/* Task input form  */}
       <View style={styles.form}>
         <TextInput
-          placeholder="Title"
+          placeholder={t('signin.addTaskTitle')}
           value={title}
           onChangeText={setTitle}
           style={styles.input}
@@ -146,7 +148,7 @@ export default function TaskDetails() {
         {error ? <Text style={{ color: 'red' }}>{error}</Text> : null}
 
         <TextInput
-          placeholder="Description"
+          placeholder={t('signin.addTaskDesc')}
           value={desc}
           onChangeText={setDesc}
           style={styles.input}
@@ -156,7 +158,7 @@ export default function TaskDetails() {
 
         <View style={{ marginTop: 20 }}>
           <Button
-            title={editingId ? 'Save' : 'Add'}
+            title={editingId ? t('signin.save') : t('signin.add')}
             onPress={handleAddOrSaveTask}
             accessibilityLabel="add-save-button"
           />
@@ -178,7 +180,7 @@ export default function TaskDetails() {
       {/*  Pagination */}
       <View style={styles.paginationRow}>
         <MyButton
-          title="Previous"
+          title={t('signin.previous')}
           onPress={() => setCurrentPage(p => Math.max(p - 1, 1))}
           disabled={safePage <= 1}
           buttonStyle={{ backgroundColor: '#4caf50' }}
@@ -186,11 +188,11 @@ export default function TaskDetails() {
         />
 
         <Text style={styles.pageInfo}>
-          Page {safePage} of {totalPages}
+          {t('signin.page')} {safePage} of {totalPages}
         </Text>
 
         <MyButton
-          title="Next"
+          title={t('signin.next')}
           onPress={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
           disabled={safePage >= totalPages}
           buttonStyle={{ backgroundColor: '#4caf50' }}

@@ -14,6 +14,6 @@ export const Card = <T,>({ children }: CardProps<T>) => {
 };
 
 const styles = StyleSheet.create({
-  card: { padding: 12, margin: 8, borderRadius: 8, backgroundColor: 'white', shadowColor: '#000', shadowOpacity: 0.1, elevation: 2 }
+  card: { padding: 10, marginTop: 8,marginRight:2,marginLeft:2,marginBottom:8, borderRadius: 8, backgroundColor: 'white', shadowColor: '#000', shadowOpacity: 0.1}
 });
 

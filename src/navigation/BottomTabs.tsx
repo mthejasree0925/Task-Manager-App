@@ -1,15 +1,18 @@
+import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { TabBarIcon } from "../components/TabBarIcon";
 import { MaterialIcons } from "@expo/vector-icons";
 import Tasks from "../screens/Tasks";
 import Errors from "../screens/Errors";
 import SignOut from "../screens/SignOut";
+import { t } from "i18next";
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = ({ userRole }: any) => {
   return (
 
     <Tab.Navigator
+     id="bottom-tabs"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
@@ -33,12 +36,12 @@ const BottomTabs = ({ userRole }: any) => {
         tabBarInactiveTintColor: '#757575',
       })}
     >
-      <Tab.Screen name="Tasks" component={Tasks} />
+      <Tab.Screen name={t('signin.bottomtab1')} component={Tasks} />
       {userRole === 'admin' && (
-        <Tab.Screen name="Errors" component={Errors} />
+        <Tab.Screen  name ={t('signin.bottomtab2')} component={Errors} />
       )}
       <Tab.Screen
-        name="SignOut" component={SignOut} />
+        name={t('signin.bottomtab3')} component={SignOut} />
 
     </Tab.Navigator>
   );
